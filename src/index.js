@@ -5,16 +5,16 @@ import { fetchCountries } from './fetch-countries'
 
 const DEBOUNCE_DELAY = 300
 
-const countryInput = document.querySelector('#search-box')
-const countryList = document.querySelector('.country-list')
-const countryInfo = document.querySelector('.country-info')
+const countryInput = document.querySelector('#search-box');
+const countryList = document.querySelector('.country-list');
+const countryInfo = document.querySelector('.country-info');
 
-countryInput.addEventListener('input', debounce(onCountryInput, DEBOUNCE_DELAY))
+countryInput.addEventListener('input', debounce(CountryInput, DEBOUNCE_DELAY));
 
-function onCountryInput() {
+function CountryInput() {
     const name = countryInput.value.trim()
     if (name === '') {
-        return (countryList.innerHTML = ''), (countryInfo.innerHTML = '')
+        return (countryList.innerHTML = ''), (countryInfo.innerHTML = '');
     }
 
     fetchCountries(name)
@@ -25,12 +25,12 @@ function onCountryInput() {
                 countryList.insertAdjacentHTML('beforeend', renderCountryList(countries))
                 countryInfo.insertAdjacentHTML('beforeend', renderCountryInfo(countries))
             } else if (countries.length >= 10) {
-                alertTooManyMatches()
+                alertTooManyMatchesCountry()
             } else {
                 countryList.insertAdjacentHTML('beforeend', renderCountryList(countries))
             }
         })
-        .catch(alertWrongName)
+        .catch(alertWrongNameCountry)
 }
 
 function renderCountryList(countries) {
@@ -38,13 +38,13 @@ function renderCountryList(countries) {
         .map(({ name, flags }) => {
             return `
           <li class="country-list__item">
-              <img class="country-list__flag" src="${flags.svg}" alt="Flag of ${name.official}" width = 30px height = 30px>
+              <img class="country-list__flag" src="${flags.svg}" alt="Flag of ${name.official}" width = 40px height = 40px>
               <h2 class="country-list__name">${name.official}</h2>
           </li>
           `
         })
         .join('')
-    return markup
+    return markup;
 }
 
 function renderCountryInfo(countries) {
@@ -59,13 +59,13 @@ function renderCountryInfo(countries) {
         `
         })
         .join('')
-    return markup
+    return markup;
 }
 
-function alertWrongName() {
+function alertWrongNameCountry() {
     Notiflix.Notify.failure('Oops, there is no country with that name')
 }
 
-function alertTooManyMatches() {
+function alertTooManyMatchesCountry() {
     Notiflix.Notify.info('Too many matches found. Please enter a more specific name.')
 }
